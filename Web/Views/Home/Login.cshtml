@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>登录</h2>
+
+<div style="text-align:center;">
+    <div>用户名：<input type="text" id="txt_username" /></div>
+    <div>密  码：<input type="password" id="txt_password" /></div>
+    <div><input type="button" value="登录" id="btn_login" class="btn-default" /></div>
+</div>
+@section scripts{
+    <script>
+
+        $(function () {
+            $("#btn_login").click(function () {
+
+                $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "http://localhost:58423/api/account/login",
+                    data: { strUser: $("#txt_username").val(), strPwd: $("#txt_password").val() },
+                    success: function (data) { 
+                        if (!data.bRes) {
+                            alert("登录失败");
+                            return;
+                        }
+                        alert("登录成功");
+                        //登录成功之后将用户名和用户票据带到主界面
+                        window.location = "/Home/Index?UserName=" + data.UserName + "&Ticket=" + data.Ticket;
+
+
+                    },
+                    error: function (data) {
+                        alert('登录失败');
+
+                    },
+                    complete: function () {
+
+                    }
+
+                });
+            });
+        });
+
+    </script>
+
+}

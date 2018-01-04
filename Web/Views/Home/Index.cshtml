@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+测试结果：
+<div id="div_test">
+    ...
+</div>
+    当前登录用户：
+<div id="username">
+    @ViewBag.UserName
+</div>
+<input type="button" value="测试" id="testbtn" />
+
+@section scripts{
+    <script>
+        var ApiUrl = "http://localhost:58423/";
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: ApiUrl + "api/Account/GetAllData",
+            data: {},
+            beforeSend:function(XHR){                XHR.setRequestHeader('Authorization','BasicAuth @ViewBag.Ticket')
+            },
+            success: function (data, status) {
+                if (status == "success") {
+                    $("#div_test").html(data);
+                }
+            },
+            error: function (e) {
+                $("#div_test").html("Error");
+            }
+        });
+    });
+    </script>
+
+}
+
+
