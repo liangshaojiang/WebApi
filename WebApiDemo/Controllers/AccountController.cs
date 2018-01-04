@@ -32,6 +32,10 @@ namespace WebApiDemo.Controllers
                             FormsAuthentication.FormsCookiePath);
             //返回登录结果、用户信息、用户验证票据信息
             var oUser = new UserInfo { bRes = true, UserName = strUser, Password = strPwd, Ticket = FormsAuthentication.Encrypt(ticket) };
+
+            //解密ticket
+            FormsAuthenticationTicket ticket2 = FormsAuthentication.Decrypt(oUser.Ticket);
+
             //将身份信息保存在session中，验证当前请求是否是有效请求
             HttpContext.Current.Session[strUser] = oUser;
             return oUser;
@@ -59,6 +63,9 @@ namespace WebApiDemo.Controllers
         [RequestAuthorize]
         public string GetAllData()
         {
+
+
+
             return "Success";
         }
 
